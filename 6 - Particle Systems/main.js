@@ -20,9 +20,15 @@ function animate() {
     requestAnimationFrame(animate); // next cycle
 }
 
-window.addEventListener("click", addPS());
+function loadParticles() {
+    for (let i = 0; i < particles.length; i++) {
+        particles[i].run();
+    }
+}
 
-function addPS(){
+window.addEventListener("click", newPS());
 
+function newPS() {
+    particles.push(new PS(offsetX, offsetY));
 }
 
