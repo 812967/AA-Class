@@ -18,8 +18,8 @@ Orbiter.prototype.run = function () {
 }
 
 Orbiter.prototype.render = function () {
-    context.strokeStyle = "rgba(210, 72, 184, 100)";
-    context.fillStyle = "rgba(210, 72, 184, 100)";
+    context.strokeStyle = "rgba(36, 96, 104)";
+    context.fillStyle = "rgba(36, 96, 104)";
     context.beginPath();
     context.arc(this.loc.x, this.loc.y, this.rad, Math.PI * 2, 0, false);
     context.stroke();

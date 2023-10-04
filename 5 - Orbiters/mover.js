@@ -4,12 +4,12 @@ function Mover(x, y, rad, orbN) {
   this.vel = new JSVector(Math.random() * 5 - 2.5, Math.random() * 5 - 2.5);
   this.rad = rad;
   this.angs = [];
-  for(let i = 0; i<numOrb; i++){
-    this.ang = i*(Math.PI*2/numOrb);
+  for(let i = 0; i<orbN; i++){
+    this.angs[i] = i*(Math.PI*2/orbN);
   }
   this.orbs = [];
   for(let i = 0; i<orbN; i++){
-    this.orbs[i] = new Orbiter(this, orbN, rad/2, 100);//make orbiter
+    this.orbs[i] = new Orbiter(this, orbN, rad/2, 50, this.angs[i]);//make orbiter
   }
 }
 
@@ -37,8 +37,8 @@ Mover.prototype.checkEdges = function () {
 }
 
 Mover.prototype.render = function () {
-  context.strokeStyle = "rgba(46, 1, 56, 100)";
-  context.fillStyle = "rgba(91, 41, 113)";
+  context.strokeStyle = "rgba(55, 50, 118, 100)";
+  context.fillStyle = "rgba(55, 50, 118)";
   context.beginPath();
   context.arc(this.loc.x, this.loc.y, this.rad, Math.PI * 2, 0, false);
   context.stroke();

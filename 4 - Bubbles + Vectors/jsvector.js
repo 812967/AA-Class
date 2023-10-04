@@ -99,7 +99,7 @@ let y = this.y;
 let cos = Math.cos(angle);
 let sin = Math.sin(angle);
 this.x = x*cos - sin * y;
-this.y = x*sin - cos*y; 
+this.y = x*sin + cos*y; 
 return this;
 }
 
