@@ -26,7 +26,7 @@ function loadMovers(n) {
     for (let i = 0; i < n; i++) {
         let x = Math.random() * canvas.width;
         let y = Math.random() * canvas.height;
-        movers[i] = new Mover(x, y, 10, 1);
+        movers[i] = new Mover(x, y, 10, 8);
     }
 }
 

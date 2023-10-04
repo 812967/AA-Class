@@ -1,9 +1,16 @@
 //  Mover Function Class Thingy 
-function Mover(x, y, rad) {
+function Mover(x, y, rad, orbN) {
   this.loc = new JSVector(x, y);
   this.vel = new JSVector(Math.random() * 5 - 2.5, Math.random() * 5 - 2.5);
   this.rad = rad;
-  this.orb = new Orbiter(this, rad/2);//make orbiter
+  this.angs = [];
+  for(let i = 0; i<numOrb; i++){
+    this.ang = i*(Math.PI*2/numOrb);
+  }
+  this.orbs = [];
+  for(let i = 0; i<orbN; i++){
+    this.orbs[i] = new Orbiter(this, orbN, rad/2, 100);//make orbiter
+  }
 }
 
 //  placing methods in the prototype (every mover shares functions)
@@ -40,7 +47,9 @@ Mover.prototype.render = function () {
 
 //  update mover and orbiters every animation frame
 Mover.prototype.update = function () {
-  this.orb.run();
+  for(let i = 0; i<this.orbs.length; i++){
+    this.orbs[i].run();
+  }
   this.loc.add(this.vel);
 }
 

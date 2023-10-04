@@ -1,11 +1,13 @@
 //  Orbiter Function Class Thingy 
-function Orbiter(mover, rad) {
+function Orbiter(mover, numOrb, rad, orbR, ang) {
     this.m = mover;
     this.loc = new JSVector(1, 1);
     this.loc.setMagnitude(rad);
-    this.ang = Math.random() * Math.PI*2;
+    this.ang = ang;
+    this.angVel = 0.02;
     this.loc.setDirection(0);
     this.rad = rad;
+    this.orbitalRadius = orbR;
 }
 
 //  placing methods in the prototype (every ball shares functions)
@@ -41,9 +43,9 @@ Orbiter.prototype.render = function () {
 
 //  update bubble every animation frame
 Orbiter.prototype.update = function () {
-    this.loc = new JSVector(this.rad * 10, this.rad * 10);
-    this.loc.x = this.loc.x+this.m.loc.x*Math.cos(this.ang+(Math.random()*0.2));
-    this.loc.y = this.loc.y+this.m.loc.y*Math.sin(this.ang+(Math.random()*0.2));
-    this.loc = JSVector.addGetNew(this.m.loc, this.loc);
+    this.loc = new JSVector(1,1);
+    this.loc.x = this.m.loc.x+this.orbitalRadius*Math.cos(this.ang);
+    this.loc.y = this.m.loc.y+this.orbitalRadius*Math.sin(this.ang);
+    this.ang += this.angVel;
 }
 
