@@ -4,11 +4,12 @@ window.addEventListener("load", init);
 
 // global variables
 let canvas, context;
-let particles = []; //array for particle systems 
+let particleSystems = []; //array for particle systems 
+let firstTime = true;
 
 function init() {
     canvas = document.getElementById("cnv");
-
+    context = canvas.getContext("2d");
     loadParticles();
     animate();      // kick off the animation
 }
@@ -17,19 +18,27 @@ function init() {
 function animate() {
     // erase the HTMLCanvasElement
     context.clearRect(0, 0, canvas.width, canvas.height);
+    runParticles();
     requestAnimationFrame(animate); // next cycle
 }
 
 function loadParticles() {
-    for (let i = 0; i < particles.length; i++) {
-        particles[i].run();
+    if (firstTime) {//creates an initial particle system when first opened 
+        particleSystems.push(new PS(400, 300));
     }
 }
 
-window.addEventListener("click", newPS());
+function runParticles() {//renders and updates particles in all particle systems 
+    for (let i = 0; i < particleSystems.length; i++) {
+        particleSystems[i].run();
+    }
+}
+
+
+window.addEventListener("click", newPS);//adds a new particle system wherever clicked 
 
 function newPS() {
-    particles.push(new PS(offsetX, offsetY));
+    particleSystems.push(new PS("click".clientX, "click".clientY));
 }
 
 /*
@@ -60,7 +69,6 @@ context.strokeStyle = "rgba(248, 39, 255, 1)";
     context.fill();
 
 make a rectanlge with round corners 
-    context = canvas.getContext("2d");
     context.fillStyle = "rgba(248, 39, 255, 1)";
     context.beginPath();
     context.roundRect(200, 200, 100, 100, 10);
