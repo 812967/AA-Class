@@ -1,7 +1,7 @@
 function PS(x, y) {
     this.particles = [];//array for all the particles 
     //this.life = 1;
-    this.gravity = new JSVector(1,1);
+    this.gravity = new JSVector(1, 1);
     this.gravity.setDirection(-3 * Math.PI / 2);
     this.gravity.setMagnitude(0.08);
     this.loc = new JSVector(x, y);//initial location of particles 
@@ -22,11 +22,13 @@ PS.prototype.render = function () {
 }
 
 PS.prototype.update = function () {
-    for (let i = 0; i < this.particles.length; i++) {
+    for (let i = this.particles.length - 1; i > 0; i--) {
         this.particles[i].vel = new JSVector.addGetNew(this.particles[i].vel, this.gravity);
         this.particles[i].vel.limit(4);
         let newLoc = new JSVector.addGetNew(this.particles[i].loc, this.particles[i].vel);
-        this.particles[i].loc = newLoc.copy();
+        this.particles[i].loc = newLoc.copy();//add gravity to the velocity of the particles 
+        if (this.particles[i].loc.y > 1010)
+            this.particles.splice(i, 1);
     }
 }
 
