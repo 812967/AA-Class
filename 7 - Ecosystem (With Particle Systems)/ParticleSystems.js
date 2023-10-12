@@ -5,16 +5,13 @@ function PS(x, y, index) {
     this.gravity.setDirection(-3 * Math.PI / 2);
     this.gravity.setMagnitude(0.08);
     this.loc = new JSVector(x, y);//initial location of particles 
-    this.life = 200;
+    this.life = 600;
     this.index = index;
 
 }
 
 PS.prototype.run = function () {
-    if(this.life <100 && this.life%5 === 0){
-    this.addParticle();//add a new particle to this particle system 
-    }
-    else{
+    if(this.life%100 === 0){
         this.addParticle();
     }
     this.render();//load the particles of this particle system on the screen 
@@ -33,9 +30,7 @@ PS.prototype.render = function () {
 
 PS.prototype.update = function () {
     for (let i = this.particles.length - 1; i >= 0; i--) {
-        this.particles[i].opacity -= 0.005;
-        this.particles[i].vel = new JSVector.addGetNew(this.particles[i].vel, this.gravity);
-        this.particles[i].vel.limit(4);
+        this.particles[i].vel.setMagnitude(this.particles[i].vel.getMagnitude()-0.1);
         let newLoc = new JSVector.addGetNew(this.particles[i].loc, this.particles[i].vel);
         this.particles[i].loc = newLoc.copy();//add gravity to the velocity of the particles 
         if (this.particles[i].loc.y > 1010)

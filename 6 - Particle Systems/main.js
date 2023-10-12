@@ -6,6 +6,7 @@ window.addEventListener("load", init);
 let canvas, context;
 let particleSystems = []; //array for particle systems 
 let firstTime = true;
+let ind = 0;
 
 function init() {
     canvas = document.getElementById("cnv");
@@ -24,7 +25,7 @@ function animate() {
 
 function loadParticles() {
     if (firstTime) {//creates an initial particle system when first opened 
-        particleSystems.push(new PS(400, 300));
+        particleSystems.push(new PS(400, 300, ind));
     }
 }
 
@@ -37,8 +38,9 @@ function runParticles() {//renders and updates particles in all particle systems
 
 window.addEventListener("click", newPS);//adds a new particle system wherever clicked 
 
-function newPS() {
-    particleSystems.push(new PS("click".clientX, "click".clientY));
+function newPS(e) {
+    ind++;
+    particleSystems.push(new PS(e.offsetX, e.offsetY));
 }
 
 /*
