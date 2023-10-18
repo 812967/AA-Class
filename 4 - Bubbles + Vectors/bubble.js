@@ -14,7 +14,7 @@ Bubble.prototype.run = function () {
 
 }
 
-//  Check to see if buuble leaves canvas area and reposition in necessary
+//  Check to see if buuble leaves canvas area and reposition if necessary
 Bubble.prototype.checkEdges = function () {
   if (this.loc.x > canvas.width) {
     this.loc.x = 0;
