@@ -5,6 +5,7 @@ window.addEventListener("load", init);
 // global variables
 let canvas, context;
 let particleSystems = []; //array for particle systems 
+let creatures = [];
 let firstTime = true;
 let ind = 0;
 let time = 0;
@@ -15,6 +16,7 @@ function init() {
     canvas = document.getElementById("cnv");
     context = canvas.getContext("2d");
     loadParticles();
+    loadCreatures();
     animate();      // kick off the animation
 }
 
@@ -25,10 +27,24 @@ function animate() {
     context.clearRect(0, 0, canvas.width, canvas.height);
     NightnDay();
     runParticles();
+    runCreatures();
     if(time%600===0){
         particleSystems.push(new PS(Math.random()*canvas.width, Math.random()*canvas.height));
     }
     requestAnimationFrame(animate); // next cycle
+}
+
+function loadCreatures(){
+    let stop = Math.random()*(8-2+1) + 2;
+    for(let i = 0; i<stop; i++){
+        creatures[i] = new Creature(Math.random()*canvas.width, Math.random()*canvas.height);
+    }
+}
+
+function runCreatures(){
+    for(let i = 0; i<creatures.length; i++){
+        creatures[i].run();
+    }
 }
 
 function loadParticles() {

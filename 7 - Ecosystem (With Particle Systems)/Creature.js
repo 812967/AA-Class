@@ -1,56 +1,43 @@
-//  Mover Function Class Thingy 
-function Mover(x, y, rad, orbN) {
+function Creature(x, y){
     this.loc = new JSVector(x, y);
-    this.vel = new JSVector(Math.random() * 5 - 2.5, Math.random() * 5 - 2.5);
-    this.rad = rad;
-    this.angs = [];
-    for(let i = 0; i<orbN; i++){
-      this.angs[i] = i*(Math.PI*2/orbN);
-    }
-    this.orbs = [];
-    for(let i = 0; i<orbN; i++){
-      this.orbs[i] = new Orbiter(this, orbN, rad/2, 50, this.angs[i]);//make orbiter
-    }
-  }
-  
-  //  placing methods in the prototype (every mover shares functions)
-  Mover.prototype.run = function () {
-    this.render();
+    this.vel = new JSVector(1, 1);
+    let rA = Math.random()*Math.PI*2;
+    this.vel.setDirection(rA);
+    let rV = Math.random()*5 - 2.5;
+    this.vel.setMagnitude(rV);
+}
+
+Creature.prototype.run = function(){
     this.update();
     this.checkEdges();
-  }
-  
-  //  Check to see if mover leaves canvas area and reposition in necessary
-  Mover.prototype.checkEdges = function () {
+    this.render();
+}
+
+Creature.prototype.update = function (){
+    this.loc = JSVector.addGetNew(this.loc, this.vel);
+}
+
+Creature.prototype.checkEdges = function (){
     if (this.loc.x > canvas.width) {
-      this.vel.x *= -1;
-    }
-    if (this.loc.x < 0) {
-      this.vel.x *= -1;
-    }
-    if (this.loc.y > canvas.height) {
-      this.vel.y *= -1;
-    }
-    if (this.loc.y < 0) {
-      this.vel.y *= -1;
-    }
-  }
-  
-  Mover.prototype.render = function () {
-    context.strokeStyle = "rgba(55, 50, 118, 100)";
-    context.fillStyle = "rgba(55, 50, 118)";
+        this.vel.x *= -1;
+      }
+      if (this.loc.x < 0) {
+        this.vel.x *= -1;
+      }
+      if (this.loc.y > canvas.height) {
+        this.vel.y *= -1;
+      }
+      if (this.loc.y < 0) {
+        this.vel.y *= -1;
+      }
+}
+
+Creature.prototype.render = function(){
+    context.strokeStyle = "rgba(255, 219, 0, 1)";
+    context.fillStyle = "rgba(255, 219, 0, 1,)";
     context.beginPath();
-    context.arc(this.loc.x, this.loc.y, this.rad, Math.PI * 2, 0, false);
+    context.arc(this.loc.x, this.loc.y, 60, Math.PI * 2, 0, false);
     context.stroke();
     context.fill();
-  }
-  
-  //  update mover and orbiters every animation frame
-  Mover.prototype.update = function () {
-    for(let i = 0; i<this.orbs.length; i++){
-      this.orbs[i].run();
-    }
-    this.loc.add(this.vel);
-  }
-  
-  
+}
+
