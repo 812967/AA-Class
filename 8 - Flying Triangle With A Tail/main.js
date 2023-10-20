@@ -5,6 +5,7 @@ window.addEventListener("load", init);
 // global variables
 let canvas, context;
 let ship, planet; //ship and planet global variables 
+let pause = false;
 
 function init() {
     canvas = document.getElementById("cnv");
@@ -17,10 +18,20 @@ function init() {
 // every animation cycle
 function animate() {
     // erase the HTMLCanvasElement
+    if(pause === false){
+        let time = Date.now();
+        if((Date.now()-time)%1000===0){
+            context.clearRect(0, 0, canvas.width, canvas.height);
+    ship.run();
+    planet.run();
+    requestAnimationFrame(animate);
+        }
+    }else{
     context.clearRect(0, 0, canvas.width, canvas.height);
     ship.run();
     planet.run();
     requestAnimationFrame(animate); // next cycle
+    }
 }
 
 

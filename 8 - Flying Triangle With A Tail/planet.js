@@ -11,14 +11,21 @@ Planet.prototype.run = function (){
 }
 
 Planet.prototype.update = function (){//move away from ship if ship gets close 
-    if(this.loc.distance(ship.loc)<200){
-        this.vel = ship.vel.copy();
-        this.vel.setMagnitude(this.vel.getMagnitude()*0.75);
-    }
+    // if(this.loc.distance(ship.loc)<200){
+    //     this.vel = ship.vel.copy();
+    //     this.vel.setMagnitude(this.vel.getMagnitude()*0.75);
+    // }
     if(this.loc.distance(ship.loc)<50){
         this.loc.x = Math.random()*canvas.width;
         this.loc.y = Math.random()*canvas.height;
         this.vel = new JSVector(0,0);
+        context.rect(0, 0, canvas.width, canvas.height);
+        context.fillStyle = "rgba(255, 219, 0, 1)";
+        context.fill();
+        context.fillStyle = "rgba(255, 19, 0, 1)";
+        context.font = "275px serif";
+        context.fillText("POOF!", 0, 500);
+        setTimeout(sDog(), 10000);
     }
     this.loc = JSVector.addGetNew(this.loc, this.vel);
 }
