@@ -6,11 +6,12 @@ window.addEventListener("load", init);
 let canvas, context;
 let ship, planet; //ship and planet global variables 
 let pause = false;
+let time, fp = true;
 
 function init() {
     canvas = document.getElementById("cnv");
     context = canvas.getContext("2d");
-    ship = new Ship(Math.random()*canvas.width, Math.random()*canvas.height);
+    ship = new Ship(Math.random() * canvas.width, Math.random() * canvas.height);
     planet = new Planet(20);
     animate();      // kick off the animation
 }
@@ -18,19 +19,35 @@ function init() {
 // every animation cycle
 function animate() {
     // erase the HTMLCanvasElement
-    if(pause === false){
-        let time = Date.now();
-        if((Date.now()-time)%1000===0){
-            context.clearRect(0, 0, canvas.width, canvas.height);
-    ship.run();
-    planet.run();
-    requestAnimationFrame(animate);
+    if (pause === true) {
+        if (fp) {//only set time once per pause 
+            time = Date.now();
+            fp = false;
         }
-    }else{
-    context.clearRect(0, 0, canvas.width, canvas.height);
-    ship.run();
-    planet.run();
-    requestAnimationFrame(animate); // next cycle
+        if (Date.now() - time >= 100) {//stop pause after 1000 miliseconds (1 second) 
+            pause = false;
+            fp = true;
+        }
+        //creates poof 
+        context.rect(0, 0, canvas.width, canvas.height);
+        context.fillStyle = "rgba(255, 219, 0, 1)";
+        context.fill();
+        context.fillStyle = "rgba(255, 19, 0, 1)";
+        context.font = "275px serif";
+        context.fillText("POOF!", 0, 500);
+        requestAnimationFrame(animate);
+        /*if ((Date.now() - time) % 1000 === 0) {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            ship.run();
+            planet.run();
+            requestAnimationFrame(animate);
+        }*/
+
+    } else {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        ship.run();
+        planet.run();
+        requestAnimationFrame(animate); // next cycle
     }
 }
 
