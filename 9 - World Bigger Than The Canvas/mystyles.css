@@ -1,0 +1,22 @@
+
+
+body{
+   background-color: #14c8ff;
+   margin:0;
+ }
+
+
+ canvas {
+  border: solid black 2px;
+  margin: 20px;
+  
+}
+
+
+#wrapperDiv{
+ height: 800px;
+ width: 900px;
+ margin:auto;
+ margin-top: 20px;
+}
+
