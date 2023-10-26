@@ -9,7 +9,7 @@ function Bubble(loc, vel, d, ctx1, ctx2, worldWidth, worldHeight) {
     this.wHeight = worldHeight;
     this.worldScale = new JSVector(this.wWidth, this.wHeight);
 
-    this.color = "rgba(" + Math.floor(Math.random()*256) + ", " + Math.floor(Math.random()*256) + ", " + Math.floor(Math.random()*256) + ")";
+    this.color = "rgba(" + Math.floor(Math.random() * 256) + ", " + Math.floor(Math.random() * 256) + ", " + Math.floor(Math.random() * 256) + ")";
 }//++++++++++++++++++++++++++++++++ end mover constructor
 
 //++++++++++++++++++++++++++++++++ mover methods
