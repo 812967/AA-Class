@@ -1,7 +1,7 @@
 function World() {
     //Main canvas showing part of world 
     this.canvasMain = document.getElementById('cnv1');
-    this.contextMain = this.canvasMain.getcontext('2d');
+    this.contextMain = this.canvasMain.getContext('2d');
     //Mini canvas showing the whole world 
     this.canvasMini = document.getElementById('cnv2');
     this.contextMini = this.canvasMini.getContext('2d');
@@ -18,27 +18,27 @@ function World() {
     }
     //create bubbles 
     this.bubbles = [];
-    this.loadBubbles(1, this.contextMain, this.contextMini, this.dims.width, this.dims.height);
+    this.loadBubbles(100, this.contextMain, this.contextMini, this.dims.width, this.dims.height);
     //make world fit in Mini canvas 
-    this.scaleX = 0.1;
-    this.scaleY = 0.1;
+    this.scaleX = 0.5;
+    this.scaleY = 0.5;
     //make Main canvas move in world with wasd keys 
     window.addEventListener("keypress", function (event) {
         switch (event.code) {
             case "KeyW":
-                if (world.cavnasMainLoc.y + 100 > world.dims.top)
+                if (world.canvasMainLoc.y + 100 > world.dims.top)
                     world.canvasMainLoc.y -= 20;
                 break;
             case "KeyS":
-                if (world.cavnasMainLoc.y + world.canvasMain.height - 100 < world.dims.bottom)
+                if (world.canvasMainLoc.y + world.canvasMain.height - 100 < world.dims.bottom)
                     world.canvasMainLoc.y += 20;
                 break;
             case "KeyA":
-                if (world.cavnasMainLoc.x + 100 > world.dims.left)
+                if (world.canvasMainLoc.x + 100 > world.dims.left)
                     world.canvasMainLoc.y -= 20;
                 break;
             case "KeyD":
-                if (world.cavnasMainLoc.x + world.canvasMain.width - 100 < world.dims.right)
+                if (world.canvasMainLoc.x + world.canvasMain.width - 100 < world.dims.right)
                     world.canvasMainLoc.y += 20;
                 break;
         }
@@ -49,7 +49,10 @@ World.prototype.run = function(){
     //clear the canvas
     this.contextMain.clearRect(0, 0, this.canvasMain.width, this.canvasMain.height);
 
-      //+++++++++++++++++++++++++++++++++++++++++++++++++++++  run the movers
+    //run bubbles 
+    for(let i = 0; i<this.bubbles.length; i++){
+        this.bubbles[i].run();
+    }
   //  save the context for the main Canvas
   //  move the main canvas inside of the world (translate according to this.cnvMainLoc)
   //  clear the mini rect
@@ -58,8 +61,20 @@ World.prototype.run = function(){
   //  center rect in the miniCanvas
   //  run all of the movers
   //  restore the main and mini contexts
-
-  //+++++++++++++++++++++++++++++++++++++++++++++++++++++ Draw the main and mini Canvas with bounds and axes
+    this.contextMain.save();
+    this.contextMain.translate(this.canvasMainLoc.x, this.canvasMainLoc.y);
+    this.contextMini.clearRect(0, 0, this.canvasMini.width, this.canvasMini.height);
+    this.contextMini.save();
+    this.contextMain.scale(this.scaleX, this.scaleY);
+    this.contextMain.translate(this.contextMain.width, this.contextMain.height);
+    for(let i = 0; i<this.bubbles.length; i++){
+        this.bubbles[i].run();
+    }
+    this.contextMini.restore();
+    this.contextMain.restore();
+  //+++    Draw the main and mini Canvas with bounds and axes
+    this.contextMain.save();
+    this.contextMain.translate(this.canvasMainLoc.x, this.canvasMainLoc.y);
 
   // save the main context
   // translate cnvMain according to the location of the canvas in the world

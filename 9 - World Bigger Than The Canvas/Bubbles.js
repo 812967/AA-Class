@@ -34,15 +34,15 @@ Bubble.prototype.checkEdges = function () {
 
 Bubble.prototype.render = function () {
     //  render balls in world
-    context1.fillStyle = this.color;
-    context1.beginPath();
-    context1.arc(this.loc.x, this.loc.y, this.diam, Math.PI * 2, 0, false);
-    context1.fill();
-    this.context1.endPath();
+    this.context1.fillStyle = this.color;
+    this.context1.beginPath();
+    this.context1.arc(this.loc.x, this.loc.y, this.diam, Math.PI * 2, 0, false);
+    this.context1.fill();
+    this.context1.closePath();
     //  render balls in mini map
-    context2.fillStyle = this.color;
-    context2.beginPath();
-    context2.arc(this.loc.x, this.loc.y, this.diam, Math.PI * 2, 0, false);
-    context2.fill();
-    this.context2.endPath();
+    this.context2.fillStyle = this.color;
+    this.context2.beginPath();
+    this.context2.arc(this.loc.x, this.loc.y, this.diam, Math.PI * 2, 0, false);
+    this.context2.fill();
+    this.context2.closePath();
 }
