@@ -54,10 +54,6 @@ World.prototype.run = function () {
     this.contextMain.save();
     //  move the main canvas inside of the world (translate according to this.cnvMainLoc)
     this.contextMain.translate(this.canvasMainLoc.x, this.canvasMainLoc.y);
-    this.contextMain.rect(0, 0, 10, 3020);
-    this.contextMain.rect(0, 0, 4020, 10);
-    this.contextMain.rect(4000, 0, 10, 3020);
-    this.contextMain.rect(0, 3000, 4020, 10);
     //  clear the mini rect
     this.contextMini.clearRect(0, 0, this.canvasMini.width, this.canvasMini.height);
     //  save the miniContext
@@ -72,27 +68,48 @@ World.prototype.run = function () {
     }
     //  restore the main and mini contexts
     this.contextMini.restore();
-    
     this.contextMain.restore();
-    //+++    Draw the main and mini Canvas with bounds and axes
+
+    //+++    Draw the main and mini Canvas with boarders and axes
  
+    //save and translate main canvas 
+    this.contextMain.save();
+    this.contextMain.translate(this.canvasMainLoc.x, this.canvasMainLoc.y);
+    //axes for the main canvas 
+    this.contextMain.beginPath();
+    this.contextMain.rect(0, this.dims.top, 5, this.dims.height);//top to bottom axes 
+    this.contextMain.rect(this.dims.left, 0, this.dims.width, 5);//left to right axes 
+    this.contextMain.fillStyle = "rgba(50, 9, 240, 0.5)";
+    this.contextMain.fill();
+    this.contextMain.closePath();
+    //boarders for the main canvas 
+    this.contextMain.beginPath();
+    this.contextMain.rect(this.dims.left-5, this.dims.top-5, 5, this.dims.height+10);//top left to bottom left 
+    this.contextMain.rect(this.dims.left-5, this.dims.bottom, this.dims.width+10, 5);//bottom left to bottom right 
+    this.contextMain.rect(this.dims.right, this.dims.top-5, 5, this.dims.height+10);//top right to bottom right 
+    this.contextMain.rect(this.dims.left-5, this.dims.top-5, this.dims.width+10, 5);//top left to top right 
+    this.contextMain.fillStyle = "rgba(50, 9, 240, 0.5)";
+    this.contextMain.fill();
+    this.contextMain.closePath();
+    //restore main canvas 
+    this.contextMain.restore();
 
-    // save the main context
- //  this.contextMain.save();
-    // translate cnvMain according to the location of the canvas in the world
- // this.contextMain.translate(this.canvasMainLoc.x, this.canvasMainLoc.y);
-    // draw the bounds of the world in cnvMain
-   
-    // Add axis in the main Canvas
-    //draw x and y axes on miniMap
-    // scale cnvMini - contain the entire world (scaleX, and scaleY)
-    //center cnvMini in world
-    //outline box inside of cnvMini
-    //draw x and y axes on miniMap
-    // restore both ctxMain and ctxMini
-   // this.contextMain.restore();
+    //axes for the mini canvas
+    this.contextMini.beginPath();
+    this.contextMini.rect(this.canvasMini.width/2, 0, 5, this.canvasMini.height);//top to bottom axes 
+    this.contextMini.rect(0, this.canvasMini.height/2, this.canvasMini.width, 5);//left to right axes 
+    this.contextMini.fillStyle = "rgba(50, 9, 240, 0.5)";
+    this.contextMini.fill();
+    this.contextMini.closePath();
 
-
+    //make viewing window in Mini canvas 
+    this.contextMini.beginPath();
+    this.contextMini.rect(this.canvasMainLoc.x, this.canvasMainLoc.y, 5, this.canvasMini.height);//top left to bottom left 
+    this.contextMini.rect(this.canvasMainLoc.x, this.canvasMainLoc.y+this.canvasMini.height, this.canvasMini.width, 5);//bottom left to bottom right 
+    this.contextMini.rect(this.canvasMainLoc.x+this.canvasMini.width, this.canvasMainLoc.y, 5, this.canvasMini.height);//top right to bottom right 
+    this.contextMini.rect(this.canvasMainLoc.x, this.canvasMainLoc.y, this.canvasMainLoc.x+this.canvasMini.width, 5);//top left to top right 
+    this.contextMini.fillStyle = "rgba(49, 10, 230, 0.5)";
+    this.contextMini.fill();
 }
 
 
