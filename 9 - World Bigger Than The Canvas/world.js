@@ -27,19 +27,19 @@ function World() {
         switch (event.code) {
             case "KeyW":
                 //if (world.canvasMainLoc.y + 100 > world.dims.top)
-                    world.canvasMainLoc.y += 20;
+                world.canvasMainLoc.y += 20;
                 break;
             case "KeyS":
                 //if (world.canvasMainLoc.y + world.canvasMain.height - 100 < world.dims.bottom)
-                    world.canvasMainLoc.y -= 20;
+                world.canvasMainLoc.y -= 20;
                 break;
             case "KeyA":
                 //if (world.canvasMainLoc.x + 100 > world.dims.left)
-                    world.canvasMainLoc.x += 20;
+                world.canvasMainLoc.x += 20;
                 break;
             case "KeyD":
                 //if (world.canvasMainLoc.x + world.canvasMain.width - 100 < world.dims.right)
-                    world.canvasMainLoc.x -= 20;
+                world.canvasMainLoc.x -= 20;
                 break;
         }
     }, false);
@@ -71,7 +71,7 @@ World.prototype.run = function () {
     this.contextMain.restore();
 
     //+++    Draw the main and mini Canvas with boarders and axes
- 
+
     //save and translate main canvas 
     this.contextMain.save();
     this.contextMain.translate(this.canvasMainLoc.x, this.canvasMainLoc.y);
@@ -84,10 +84,10 @@ World.prototype.run = function () {
     this.contextMain.closePath();
     //boarders for the main canvas 
     this.contextMain.beginPath();
-    this.contextMain.rect(this.dims.left-5, this.dims.top-5, 5, this.dims.height+10);//top left to bottom left 
-    this.contextMain.rect(this.dims.left-5, this.dims.bottom, this.dims.width+10, 5);//bottom left to bottom right 
-    this.contextMain.rect(this.dims.right, this.dims.top-5, 5, this.dims.height+10);//top right to bottom right 
-    this.contextMain.rect(this.dims.left-5, this.dims.top-5, this.dims.width+10, 5);//top left to top right 
+    this.contextMain.rect(this.dims.left - 5, this.dims.top - 5, 5, this.dims.height + 10);//top left to bottom left 
+    this.contextMain.rect(this.dims.left - 5, this.dims.bottom, this.dims.width + 10, 5);//bottom left to bottom right 
+    this.contextMain.rect(this.dims.right, this.dims.top - 5, 5, this.dims.height + 10);//top right to bottom right 
+    this.contextMain.rect(this.dims.left - 5, this.dims.top - 5, this.dims.width + 10, 5);//top left to top right 
     this.contextMain.fillStyle = "rgba(50, 9, 240, 0.5)";
     this.contextMain.fill();
     this.contextMain.closePath();
@@ -96,20 +96,28 @@ World.prototype.run = function () {
 
     //axes for the mini canvas
     this.contextMini.beginPath();
-    this.contextMini.rect(this.canvasMini.width/2, 0, 5, this.canvasMini.height);//top to bottom axes 
-    this.contextMini.rect(0, this.canvasMini.height/2, this.canvasMini.width, 5);//left to right axes 
+    this.contextMini.rect(this.canvasMini.width / 2, 0, 5, this.canvasMini.height);//top to bottom axes 
+    this.contextMini.rect(0, this.canvasMini.height / 2, this.canvasMini.width, 5);//left to right axes 
     this.contextMini.fillStyle = "rgba(50, 9, 240, 0.5)";
     this.contextMini.fill();
     this.contextMini.closePath();
 
     //make viewing window in Mini canvas 
+    let leftX = this.scaleX * this.canvasMainLoc.x;
+    let rightX = (this.scaleX * this.canvasMainLoc.x + this.scaleX * this.canvasMini.width);
+    let topY = this.scaleY * this.canvasMainLoc.y;
+    let bottomY = this.scaleY * this.canvasMainLoc.y + this.scaleY * this.canvasMini.height;
+    console.log(leftX, rightX, topY, bottomY);
+    this.contextMini.save();
+    this.contextMini.translate(this.canvasMini.width / 2, this.canvasMini.height / 2);
     this.contextMini.beginPath();
-    this.contextMini.rect(this.canvasMainLoc.x, this.canvasMainLoc.y, 5, this.canvasMini.height);//top left to bottom left 
-    this.contextMini.rect(this.canvasMainLoc.x, this.canvasMainLoc.y+this.canvasMini.height, this.canvasMini.width, 5);//bottom left to bottom right 
-    this.contextMini.rect(this.canvasMainLoc.x+this.canvasMini.width, this.canvasMainLoc.y, 5, this.canvasMini.height);//top right to bottom right 
-    this.contextMini.rect(this.canvasMainLoc.x, this.canvasMainLoc.y, this.canvasMainLoc.x+this.canvasMini.width, 5);//top left to top right 
+    this.contextMini.rect(leftX, topY, 5, bottomY + 5);//top left to bottom left 
+    this.contextMini.rect(leftX, bottomY, rightX + 5, 5);//bottom left to bottom right 
+    this.contextMini.rect(rightX, topY, 5, bottomY + 5);//top right to bottom right 
+    this.contextMini.rect(leftX, topY, rightX + 5, 5);//top left to top right 
     this.contextMini.fillStyle = "rgba(49, 10, 230, 0.5)";
     this.contextMini.fill();
+    this.contextMini.restore();
 }
 
 
