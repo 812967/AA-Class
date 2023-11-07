@@ -19,14 +19,15 @@ function animate() {
     // erase the HTMLCanvasElement
     context.clearRect(0, 0, canvas.width, canvas.height);
     //run snakes every frame 
-    for (let i = 0; i < snakes.length; i++) {
-        snakes[i].run();
-    }
+    // for (let i = 0; i < snakes.length; i++) {
+    //     snakes[i].run();
+    // }
+    snakes[0].render();
     requestAnimationFrame(animate); // next cycle
 }
 
 function loadSnakes() {//load snakes into array 
-    snakes[0] = new Snake(new JSVector(200,200), new JSVector(0,0), 1);
+    snakes[0] = new Snake(new JSVector(200, 200), new JSVector(0, 0), 3);
 }
 
 
