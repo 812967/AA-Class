@@ -26,7 +26,7 @@ function animate() {
 }
 
 function loadSnakes() {//load snakes into array 
-
+    snakes[0] = new Snake(new JSVector(200,200), new JSVector(0,0), 1);
 }
 
 

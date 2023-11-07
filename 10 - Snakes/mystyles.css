@@ -12,14 +12,3 @@ body{
  margin-top: 20px;
 }
 
-.tile{
-  float:left;
-  padding:20px;
-  width:45px;
-  height:35px;
-  margin-left: 80px;
-  margin-top: 10px;
-  background-color: #ffffff;
-  border-radius: 100%;
-  border: solid black 2px;
-}
