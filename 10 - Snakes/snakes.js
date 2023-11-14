@@ -22,10 +22,36 @@ Snake.prototype.run = function () {
 }
 
 Snake.prototype.update = function () {
-    for(let i = 0; i<this.segments.length; i++){
+    
+    this.segments[0].add(this.vel[0]);
+    for(let i = 1; i<this.segments.length; i++){
+        if(this.segments[i].distance(this.segments[i-1])<this.baseDis){
+            this.vel[i].multiply(0);
+        }
+        else if(this.segments[i].distance(this.segments[i-1])>this.baseDis){
+            this.acc[i]= JSVector.subGetNew(this.segments[i-1], this.segments[i]);
+            this.acc[i].normalize();
+            this.acc[i].multiply(0.1);
+            this.vel[i] = JSVector.addGetNew(this.vel[i], this.acc[i]);
+            this.vel[i].limit(this.vel[i-1].getMagnitude());
+        }
+        this.segments[i] = JSVector.addGetNew(this.segments[i], this.vel[i]);
+    }
+    
+    /*for(let i = 0; i<this.segments.length; i++){
         this.vel[i] = JSVector.addGetNew(this.vel[i], this.acc[i]);
         this.segments[i] = JSVector.addGetNew(this.segments[i], this.vel[i]);
     }
+    for(let i = 1; i<this.segments.length; i++){
+        this.acc[i] = this.vel[i-1].copy();
+        this.acc[i].normalize();
+        this.acc[i].multiply(0.05);
+        this.acc[i].setDirection(this.vel[i].getDirection() - this.vel[i-1].getDirection());
+        let newVec = JSVector.addGetNew(this.vel[i], this.acc[i]);
+        newVec.limit(1);
+        this.vel[i] = newVec;
+    //if(this.segments)*/
+//}
 }
 
 Snake.prototype.checkEdges = function (){
@@ -41,17 +67,6 @@ Snake.prototype.checkEdges = function (){
     }
     if(this.segments[0].y>canvas.height-10){
             this.vel[0].y*=-1;
-    }
-    for(let i = 1; i<this.segments.length; i++){
-        if(this.segments[i-1].distance(this.segments[i])!== this.baseDis){
-            this.acc[i] = this.vel[i-1].copy();
-            this.acc[i].normalize();
-            this.acc[i].multiply(0.5);
-            let newVec = JSVector.addGetNew(this.vel[i], this.acc[i]);
-            newVec.limit(1);
-            this.vel[i] = newVec;
-        }
-        if(this.segments)
     }
 }
 
