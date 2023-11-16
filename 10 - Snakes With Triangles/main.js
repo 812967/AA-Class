@@ -10,7 +10,7 @@ function init() {
     canvas = document.getElementById("cnv");
     context = canvas.getContext("2d");
     //load snakes into array 
-    loadSnakes();
+    loadSnakes(8);
     animate();      // kick off the animation
 }
 
@@ -22,12 +22,16 @@ function animate() {
     // for (let i = 0; i < snakes.length; i++) {
     //     snakes[i].run();
     // }
-    snakes[0].run();
+    for(let i = 0; i<snakes.length; i++){
+        snakes[i].run();
+    }
     requestAnimationFrame(animate); // next cycle
 }
 
-function loadSnakes() {//load snakes into array 
-    snakes[0] = new Snake(new JSVector(50, 150), 9);
+function loadSnakes(n) {//load snakes into array 
+    for(let i = 0; i<n; i++){
+        snakes[i] = new Snake(new JSVector(200, 200), 100);
+    }
 }
 
 

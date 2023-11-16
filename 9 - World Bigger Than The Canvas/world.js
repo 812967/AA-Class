@@ -107,7 +107,7 @@ World.prototype.run = function () {
     this.contextMini.translate(this.canvasMini.width/2, this.canvasMini.height/2);
     this.contextMini.scale(this.scaleX, this.scaleY);
     this.contextMini.beginPath();
-    this.contextMini.rect(this.canvasMainLoc.x, this.canvasMainLoc.y, 10, this.canvasMainLoc.y+this.canvasMain.height);//top left to bottom left 
+    this.contextMini.rect(this.canvasMainLoc.x, this.canvasMainLoc.y,this.canvasMainLoc.x+this.canvasMain.width, this.canvasMainLoc.y+this.canvasMain.height);//top left to bottom left 
     this.contextMini.rect(this.canvasMainLoc.x, this.canvasMainLoc.y+this.canvasMain.height, this.canvasMainLoc.x+this.canvasMain.width, 10);//bottom left to bottom right 
     this.contextMini.rect(this.canvasMainLoc.x+this.canvasMain.width, this.canvasMainLoc.y, 10, this.canvasMainLoc.y+this.canvasMain.height);//top right to bottom right 
     this.contextMini.rect(this.canvasMainLoc.x, this.canvasMainLoc.y, this.canvasMainLoc.x+this.canvasMain.width, 10);//top left to top right 
