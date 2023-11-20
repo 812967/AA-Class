@@ -30,7 +30,7 @@ function animate() {
 
 function loadSnakes(n) {//load snakes into array 
     for(let i = 0; i<n; i++){
-        snakes[i] = new Snake(new JSVector(200, 200), 100);
+        snakes[i] = new Snake(new JSVector(200, 200), 25);
     }
 }
 

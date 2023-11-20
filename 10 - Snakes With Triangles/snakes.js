@@ -10,10 +10,12 @@ function Snake(loc, segments) {
         this.vel[i].normalize();
     }
     this.segments = [];//each segment has a vector 
+    this.baseDis = 2;
     for (let i = 0; i < segments; i++) {
-        this.segments[i] = new JSVector(this.loc.x + i * 5, this.loc.y + i * 5);
+        this.segments[i] = new JSVector(this.loc.x + i * 2, this.loc.y + i * 2);
+       // this.segments[i].setMagnitude(2);
     }
-    this.baseDis = 5;
+    
     this.color = "rgba(" + Math.floor(Math.random() * 256) + ", " + Math.floor(Math.random() * 256) + ", " + Math.floor(Math.random() * 256) + ", 0.5)";
 }
 
