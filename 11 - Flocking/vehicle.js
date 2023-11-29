@@ -36,8 +36,8 @@ Vehicle.prototype.flock = function(vehicles) {
   ali.multiply(aliMult);
   coh.multiply(cohMult);
   //  add each of these to flockForce
- // flockForce.add(sep);
- // flockForce.add(ali);
+  flockForce.add(sep);
+  flockForce.add(ali);
   flockForce.add(coh);
   flockForce.limit(this.maxForce);
   this.acc.add(flockForce);
@@ -66,6 +66,9 @@ Vehicle.prototype.separate = function (v) {
 
 Vehicle.prototype.align = function (v) {
   let steer = new JSVector(0,0);
+  steer = JSVector.subGetNew(new JSVector(400, 0), this.loc);
+  steer.normalize();
+  /*
   let count = 0;
   for(let i = 0; i<v.length; i++){
     let dis = this.loc.distance(v[i].loc);
@@ -79,6 +82,8 @@ Vehicle.prototype.align = function (v) {
     return steer;
   }
   return new JSVector(0,0);
+  */
+  return steer; 
 }
 
 Vehicle.prototype.cohesion = function (v) {
@@ -97,10 +102,10 @@ Vehicle.prototype.cohesion = function (v) {
     co.divide(count);
     let desired = JSVector.subGetNew(co,this.loc);  
     desired.normalize();
- //   desired.multiply(this.maxSpeed);
+    desired.multiply(this.maxSpeed);
     let steer = JSVector.subGetNew(desired,this.vel);
     steer.normalize();
-    console.log(steer);
+    steer.limit(this.maxForce);
     return steer;
   }
   return new JSVector(0,0);
