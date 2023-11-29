@@ -23,11 +23,8 @@ Vehicle.prototype.flock = function(vehicles) {
   let flockForce = new JSVector(0,0);
   // set up force vectors to be added to acc
   let sep = this.separate(vehicles);
-  if(this === vehicles[0]){
-    console.log(sep);
-  }
-  //let ali = this.align(vehicles);
-  //let coh = this.cohesion(vehicles);
+  let ali = this.align(vehicles);
+  let coh = this.cohesion(vehicles);
   //  set multiples via sliders 
   this.maxSpeed = document.getElementById("slider2").value;  // Get slider VAlue%%%%%%%%%%%%%%%%
   this.maxForce = document.getElementById("slider1").value;  // Get slider VAlue%%%%%%%%%%%%%%%%%
@@ -36,14 +33,13 @@ Vehicle.prototype.flock = function(vehicles) {
   let cohMult = document.getElementById("slider5").value;;    // Get slider VAlue%%%%%%%%%%%%%%%%%%
   //  calculate three forces
   sep.multiply(sepMult);
-  //ali.multiply(aliMult);
-  //coh.multiply(cohMult);
+  ali.multiply(aliMult);
+  coh.multiply(cohMult);
   //  add each of these to flockForce
-  flockForce.add(sep);
-  //flockForce.add(ali);
-  //flockForce.add(coh);
+ // flockForce.add(sep);
+ // flockForce.add(ali);
+  flockForce.add(coh);
   flockForce.limit(this.maxForce);
-  
   this.acc.add(flockForce);
 }
 //+++++++++++++++++++++++++++++++++  Flocking functions
@@ -70,28 +66,42 @@ Vehicle.prototype.separate = function (v) {
 
 Vehicle.prototype.align = function (v) {
   let steer = new JSVector(0,0);
-  for(let i = 0; i<v.length; i++){
-    steer.add(v[i].vel);
-  }
-  steer.divide(v.length);
-  return steer;
-}
-
-Vehicle.prototype.cohesion = function (v) {
-  let coh = new JSVector(0,0);
   let count = 0;
   for(let i = 0; i<v.length; i++){
     let dis = this.loc.distance(v[i].loc);
-    if(dis<this.desiredSep && v[i] !== this){
+    if(dis<200 && v[i] !== this){
+    steer.add(v[i].vel);
+    count++;
+    }
+  }
+  if(count > 0){
+    steer.divide(count);
+    return steer;
+  }
+  return new JSVector(0,0);
+}
+
+Vehicle.prototype.cohesion = function (v) {
+  let co = new JSVector(0,0);
+  let count = 0;
+  for(let i = 0; i<v.length; i++){
+    let dis = this.loc.distance(v[i].loc);
+    if(dis<200 && dis>0){
       let s = JSVector.subGetNew(v[i].loc, this.loc);
       s.normalize();
-      coh.add(s);
+      co.add(s);
       count++;
     }
   }
   if(count>0){
-    coh.divide(count);
-    return this.seek(coh);
+    co.divide(count);
+    let desired = JSVector.subGetNew(co,this.loc);  
+    desired.normalize();
+ //   desired.multiply(this.maxSpeed);
+    let steer = JSVector.subGetNew(desired,this.vel);
+    steer.normalize();
+    console.log(steer);
+    return steer;
   }
   return new JSVector(0,0);
 }
