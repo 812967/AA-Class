@@ -32,9 +32,9 @@ Vehicle.prototype.flock = function(vehicles) {
   let aliMult = document.getElementById("slider4").value;;  // Get slider VAlue%%%%%%%%%%%%%%%%%%
   let cohMult = document.getElementById("slider5").value;;    // Get slider VAlue%%%%%%%%%%%%%%%%%%
   //  calculate three forces
-  sep.multiply(sepMult);
-  ali.multiply(aliMult);
-  coh.multiply(cohMult);
+  sep.multiply(sepMult*2);
+  ali.multiply(aliMult*2);
+  coh.multiply(cohMult*2);
   //  add each of these to flockForce
   flockForce.add(sep);
   flockForce.add(ali);
@@ -57,32 +57,16 @@ Vehicle.prototype.separate = function (v) {
   }
   if(count>0){
     sum.divide(count);
-    
+    sum.normalize();
+    sum.multiply(this.maxForce);
   }
   return sum;
-  // else{
-  //   return new JSVector(0,0);}
 }
 
 Vehicle.prototype.align = function (v) {
   let steer = new JSVector(0,0);
   steer = JSVector.subGetNew(new JSVector(400, 0), this.loc);
   steer.normalize();
-  /*
-  let count = 0;
-  for(let i = 0; i<v.length; i++){
-    let dis = this.loc.distance(v[i].loc);
-    if(dis<200 && v[i] !== this){
-    steer.add(v[i].vel);
-    count++;
-    }
-  }
-  if(count > 0){
-    steer.divide(count);
-    return steer;
-  }
-  return new JSVector(0,0);
-  */
   return steer; 
 }
 
@@ -91,7 +75,7 @@ Vehicle.prototype.cohesion = function (v) {
   let count = 0;
   for(let i = 0; i<v.length; i++){
     let dis = this.loc.distance(v[i].loc);
-    if(dis<200 && dis>0){
+    if(dis>0){
       let s = JSVector.subGetNew(v[i].loc, this.loc);
       s.normalize();
       co.add(s);
@@ -100,13 +84,9 @@ Vehicle.prototype.cohesion = function (v) {
   }
   if(count>0){
     co.divide(count);
-    let desired = JSVector.subGetNew(co,this.loc);  
-    desired.normalize();
-    desired.multiply(this.maxSpeed);
-    let steer = JSVector.subGetNew(desired,this.vel);
-    steer.normalize();
-    steer.limit(this.maxForce);
-    return steer;
+    co.normalize();
+    co.multiply(this.maxForce);
+    return co;
   }
   return new JSVector(0,0);
 }
