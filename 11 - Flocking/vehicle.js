@@ -32,15 +32,15 @@ Vehicle.prototype.flock = function(vehicles) {
   let aliMult = document.getElementById("slider4").value;;  // Get slider VAlue%%%%%%%%%%%%%%%%%%
   let cohMult = document.getElementById("slider5").value;;    // Get slider VAlue%%%%%%%%%%%%%%%%%%
   //  calculate three forces
-  sep.multiply(sepMult*2);
-  ali.multiply(aliMult*2);
-  coh.multiply(cohMult*2);
+  sep.multiply(sepMult);
+  ali.multiply(aliMult);
+  coh.multiply(cohMult);
   //  add each of these to flockForce
   flockForce.add(sep);
   flockForce.add(ali);
   flockForce.add(coh);
   flockForce.limit(this.maxForce);
-  this.acc.add(flockForce);
+  this.acc = flockForce.copy();
 }
 //+++++++++++++++++++++++++++++++++  Flocking functions
 Vehicle.prototype.separate = function (v) {
